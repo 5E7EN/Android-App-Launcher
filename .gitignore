@@ -27,3 +27,6 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Misc.
+dist/

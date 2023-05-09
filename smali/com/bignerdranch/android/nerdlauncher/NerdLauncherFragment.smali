@@ -44,149 +44,136 @@
 .end method
 
 .method private setupAdapter()V
-    .locals 8
+    .locals 9
 
     .prologue
     .line 49
-    new-instance v4, Landroid/content/Intent;
+    new-instance v5, Landroid/content/Intent;
 
-    const-string v5, "android.intent.action.MAIN"
+    const-string v6, "android.intent.action.MAIN"
 
-    invoke-direct {v4, v5}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+    invoke-direct {v5, v6}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
 
     .line 50
-    .local v4, "startupIntent":Landroid/content/Intent;
-    const-string v5, "android.intent.category.LAUNCHER"
+    .local v5, "startupIntent":Landroid/content/Intent;
+    const-string v6, "android.intent.category.LAUNCHER"
 
-    invoke-virtual {v4, v5}, Landroid/content/Intent;->addCategory(Ljava/lang/String;)Landroid/content/Intent;
+    invoke-virtual {v5, v6}, Landroid/content/Intent;->addCategory(Ljava/lang/String;)Landroid/content/Intent;
 
     .line 51
     invoke-virtual {p0}, Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment;->getActivity()Landroid/support/v4/app/FragmentActivity;
 
-    move-result-object v5
+    move-result-object v6
 
-    invoke-virtual {v5}, Landroid/support/v4/app/FragmentActivity;->getPackageManager()Landroid/content/pm/PackageManager;
+    invoke-virtual {v6}, Landroid/support/v4/app/FragmentActivity;->getPackageManager()Landroid/content/pm/PackageManager;
 
-    move-result-object v3
+    move-result-object v4
 
     .line 52
-    .local v3, "pm":Landroid/content/pm/PackageManager;
-    const/4 v5, 0x0
+    .local v4, "packageManager":Landroid/content/pm/PackageManager;
+    const/4 v6, 0x0
 
-    invoke-virtual {v3, v4, v5}, Landroid/content/pm/PackageManager;->queryIntentActivities(Landroid/content/Intent;I)Ljava/util/List;
+    invoke-virtual {v4, v5, v6}, Landroid/content/pm/PackageManager;->queryIntentActivities(Landroid/content/Intent;I)Ljava/util/List;
 
-    move-result-object v0
+    move-result-object v1
 
     .line 53
-    .local v0, "activities":Ljava/util/List;, "Ljava/util/List<Landroid/content/pm/ResolveInfo;>;"
-    new-instance v5, Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment$$Lambda$0;
+    .local v1, "activities":Ljava/util/List;, "Ljava/util/List<Landroid/content/pm/ResolveInfo;>;"
+    new-instance v6, Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment$$Lambda$0;
 
-    invoke-direct {v5, p0}, Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment$$Lambda$0;-><init>(Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment;)V
+    invoke-direct {v6, p0}, Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment$$Lambda$0;-><init>(Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment;)V
 
-    invoke-static {v0, v5}, Ljava/util/Collections;->sort(Ljava/util/List;Ljava/util/Comparator;)V
+    invoke-static {v1, v6}, Ljava/util/Collections;->sort(Ljava/util/List;Ljava/util/Comparator;)V
 
     .line 59
-    new-instance v1, Ljava/util/ArrayList;
+    new-instance v2, Ljava/util/ArrayList;
 
-    invoke-direct {v1}, Ljava/util/ArrayList;-><init>()V
+    invoke-direct {v2}, Ljava/util/ArrayList;-><init>()V
 
     .line 60
-    .local v1, "filteredActivities":Ljava/util/List;, "Ljava/util/List<Landroid/content/pm/ResolveInfo;>;"
-    invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
+    .local v2, "userApps":Ljava/util/List;, "Ljava/util/List<Landroid/content/pm/ResolveInfo;>;"
+    invoke-interface {v1}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
-    move-result-object v5
+    move-result-object v6
 
     :cond_0
     :goto_0
-    invoke-interface {v5}, Ljava/util/Iterator;->hasNext()Z
-
-    move-result v6
-
-    if-eqz v6, :cond_1
-
-    invoke-interface {v5}, Ljava/util/Iterator;->next()Ljava/lang/Object;
-
-    move-result-object v2
-
-    check-cast v2, Landroid/content/pm/ResolveInfo;
-
-    .line 61
-    .local v2, "info":Landroid/content/pm/ResolveInfo;
-    iget-object v6, v2, Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;
-
-    iget-object v6, v6, Landroid/content/pm/ActivityInfo;->packageName:Ljava/lang/String;
-
-    const-string v7, "com.android.cts.launcher"
-
-    invoke-virtual {v6, v7}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
-
-    move-result v6
-
-    if-nez v6, :cond_0
-
-    .line 64
-    iget-object v6, v2, Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;
-
-    iget-object v6, v6, Landroid/content/pm/ActivityInfo;->packageName:Ljava/lang/String;
-
-    const-string v7, "com.android.cts"
-
-    invoke-virtual {v6, v7}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
-
-    move-result v6
-
-    if-eqz v6, :cond_0
-
-    .line 65
-    invoke-interface {v1, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
-
-    goto :goto_0
-
-    .line 68
-    .end local v2    # "info":Landroid/content/pm/ResolveInfo;
-    :cond_1
-    const-string v5, "NerdLauncherFragment"
-
-    new-instance v6, Ljava/lang/StringBuilder;
-
-    invoke-direct {v6}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v7, "Found "
-
-    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v6
-
-    invoke-interface {v0}, Ljava/util/List;->size()I
+    invoke-interface {v6}, Ljava/util/Iterator;->hasNext()Z
 
     move-result v7
 
-    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    if-eqz v7, :cond_1
 
-    move-result-object v6
+    invoke-interface {v6}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
-    const-string v7, " activities."
+    move-result-object v3
 
-    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    check-cast v3, Landroid/content/pm/ResolveInfo;
 
-    move-result-object v6
+    .line 61
+    .local v3, "info":Landroid/content/pm/ResolveInfo;
+    iget-object v7, v3, Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;
 
-    invoke-virtual {v6}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    iget-object v7, v7, Landroid/content/pm/ActivityInfo;->applicationInfo:Landroid/content/pm/ApplicationInfo;
 
-    move-result-object v6
+    iget v7, v7, Landroid/content/pm/ApplicationInfo;->flags:I
 
-    invoke-static {v5, v6}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+    .line 62
+    .local v7, "flags":I
+    and-int/lit16 v8, v7, 0x81
 
-    .line 69
-    iget-object v5, p0, Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment;->mRecyclerView:Landroid/support/v7/widget/RecyclerView;
+    if-nez v8, :cond_0
 
-    new-instance v6, Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment$ActivityAdapter;
+    .line 63
+    invoke-interface {v2, v3}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    invoke-direct {v6, p0, v1}, Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment$ActivityAdapter;-><init>(Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment;Ljava/util/List;)V
+    goto :goto_0
 
-    invoke-virtual {v5, v6}, Landroid/support/v7/widget/RecyclerView;->setAdapter(Landroid/support/v7/widget/RecyclerView$Adapter;)V
+    .line 66
+    .end local v3    # "info":Landroid/content/pm/ResolveInfo;
+    :cond_1
+    const-string v6, "NerdLauncherFragment"
 
-    .line 70
+    new-instance v7, Ljava/lang/StringBuilder;
+
+    invoke-direct {v7}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v8, "Found "
+
+    invoke-virtual {v7, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v7
+
+    invoke-interface {v2}, Ljava/util/List;->size()I
+
+    move-result v8
+
+    invoke-virtual {v7, v8}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v7
+
+    const-string v8, " user apps."
+
+    invoke-virtual {v7, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v7
+
+    invoke-virtual {v7}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v7
+
+    invoke-static {v6, v7}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 67
+    iget-object v6, p0, Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment;->mRecyclerView:Landroid/support/v7/widget/RecyclerView;
+
+    new-instance v7, Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment$ActivityAdapter;
+
+    invoke-direct {v7, p0, v2}, Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment$ActivityAdapter;-><init>(Lcom/bignerdranch/android/nerdlauncher/NerdLauncherFragment;Ljava/util/List;)V
+
+    invoke-virtual {v6, v7}, Landroid/support/v7/widget/RecyclerView;->setAdapter(Landroid/support/v7/widget/RecyclerView$Adapter;)V
+
+    .line 68
     return-void
 .end method
 

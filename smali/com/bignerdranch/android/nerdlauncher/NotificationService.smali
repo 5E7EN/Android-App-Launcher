@@ -54,7 +54,7 @@
 
     invoke-direct {v3, p0}, Landroid/app/Notification$Builder;-><init>(Landroid/content/Context;)V
 
-    const-string v4, "Apps4flip"
+    const-string v4, "Installed Apps"
 
     .line 21
     invoke-virtual {v3, v4}, Landroid/app/Notification$Builder;->setContentTitle(Ljava/lang/CharSequence;)Landroid/app/Notification$Builder;
